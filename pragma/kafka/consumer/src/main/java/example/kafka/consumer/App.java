@@ -1,5 +1,6 @@
 package example.kafka.consumer;
 
+import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -12,9 +13,9 @@ import java.util.Properties;
 import java.util.Random;
 
 public class App {
-    private static String kafkaHost = "localhost:9092";
-    private static String topic = "fancy-topic";
-    private static String groupName = "consumer-group1";
+    private static final String kafkaHost = "localhost:9092";
+    private static final String topic = "fancy-topic";
+    private static final String groupName = "consumer-group1";
 
     public static void main(String[] args) {
         Properties properties = new Properties();
@@ -25,7 +26,7 @@ public class App {
                 "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("group.id", groupName);
 
-        try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties)) {
+        try (Consumer<String, String> consumer = new KafkaConsumer<>(properties)) {
             consumer.subscribe(Collections.singletonList(topic));
             System.out.printf("Listening to topic %s...\n", topic);
 

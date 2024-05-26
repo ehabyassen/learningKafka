@@ -10,10 +10,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class App {
+    private static final String kafkaHost = "localhost:9092";
+    private static final String topic = "fancy-topic";
 
     public static void main(String[] args) {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
+        props.put("bootstrap.servers", kafkaHost);
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("auto.create.topics.enable", false);
@@ -24,13 +26,13 @@ public class App {
             while (true) {
                 try {
                     String key = String.valueOf(i);
-                    String value = "message #" + i;
-                    String topic = "fancy-topic";
+                    String value = String.format("message #%d", i);
                     Future<RecordMetadata> responseFuture = producer.send(new ProducerRecord<>(topic, key, value));
                     RecordMetadata response = responseFuture.get();
                     int partition = response.partition();
                     long offset = response.offset();
-                    System.out.println("Sent message: " + value + ", partition: " + partition + ", offset: " + offset);
+                    String log = String.format("Sent message: %s, partition: %d, offset: %d", value, partition, offset);
+                    System.out.println(log);
                 } catch (InterruptedException | ExecutionException e) {
                     throw new RuntimeException(e);
                 }
