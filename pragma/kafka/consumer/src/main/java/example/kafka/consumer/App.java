@@ -25,11 +25,10 @@ public class App {
                 "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("group.id", groupName);
 
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
-        consumer.subscribe(Collections.singletonList(topic));
-
-        try {
+        try (KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties)) {
+            consumer.subscribe(Collections.singletonList(topic));
             System.out.printf("Listening to topic %s...\n", topic);
+
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(10));
                 for (ConsumerRecord<String, String> msg : records) {
@@ -40,8 +39,6 @@ public class App {
             }
         } catch (Exception e) {
             System.out.println("Error consuming.." + e);
-        } finally {
-            consumer.close();
         }
     }
 }

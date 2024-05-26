@@ -1,2 +1,5 @@
+.idea/
 pragma/kafka/consumer/target/
 pragma/kafka/producer/target/
+pragma/kafka/producer/.idea/
+pragma/kafka/consumer/.idea/
