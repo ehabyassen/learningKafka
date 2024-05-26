@@ -18,5 +18,6 @@ services:
             - ALLOW_PLAINTEXT_LISTENER=yes
             - TOPIC_AUTO_CREATE=false
             - DELETE_TOPIC_ENABLE=true
+            - AUTO_CREATE_TOPICS_ENABLE=false
         depends_on:
             - zookeeper

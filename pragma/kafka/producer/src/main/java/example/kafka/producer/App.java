@@ -19,6 +19,7 @@ public class App {
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("auto.create.topics.enable", false);
+        props.put("allow.auto.create.topics", false);
         props.put("acks", "all");
 
         try (Producer<String, String> producer = new KafkaProducer<>(props)) {

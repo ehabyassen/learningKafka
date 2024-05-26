@@ -25,6 +25,7 @@ public class App {
         properties.put("value.deserializer",
                 "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("group.id", groupName);
+        properties.put("allow.auto.create.topics", false);
 
         try (Consumer<String, String> consumer = new KafkaConsumer<>(properties)) {
             consumer.subscribe(Collections.singletonList(topic));
@@ -33,7 +34,7 @@ public class App {
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(10));
                 for (ConsumerRecord<String, String> msg : records) {
-                    System.out.printf("Consumed message: %s partition %s at %s\n", msg.value(),
+                    System.out.printf("Consumed message: %s partition: %s at: %s\n", msg.value(),
                             msg.partition(), new SimpleDateFormat("ss:SSS").format(new Date()));
                     Thread.sleep(new Random().nextInt(100));
                 }
