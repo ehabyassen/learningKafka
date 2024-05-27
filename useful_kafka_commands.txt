@@ -6,3 +6,6 @@ kafka-topics.sh --create --topic=fancy-topic --partitions=1 --replication-factor
 
 kafka-topics.sh --describe --topic=fancy-topic --bootstrap-server=localhost:9092 => describes a topic
 
+kafka-consumer-groups.sh --bootstrap-server=localhost:9092 --describe --group=consumer-group1 => describes consumer group
+
+

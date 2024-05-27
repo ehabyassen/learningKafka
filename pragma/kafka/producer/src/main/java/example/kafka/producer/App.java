@@ -34,14 +34,12 @@ public class App {
                     long offset = response.offset();
                     String log = String.format("Sent message: %s, partition: %d, offset: %d", value, partition, offset);
                     System.out.println(log);
-                } catch (InterruptedException | ExecutionException e) {
+                    i++;
+                    Thread.sleep(1000);
+                } catch (ExecutionException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                i++;
-                Thread.sleep(1000);
             }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 }

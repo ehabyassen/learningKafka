@@ -6,15 +6,18 @@
       <option name="ignoredModules">
         <list>
           <option value="kafka-cosumer" />
+          <option value="kafka-producer" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="commons-collections:commons-collections:3.2.2" />
+          <option value="commons-collections:commons-collections:3.2.2" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
         </list>
       </option>
