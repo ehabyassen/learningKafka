@@ -5,24 +5,24 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class App {
-    private static final String kafkaHost = "localhost:9092";
     private static final String topic = "fancy-topic";
 
     public static void main(String[] args) {
-        Properties props = new Properties();
-        props.put("bootstrap.servers", kafkaHost);
-        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("auto.create.topics.enable", false);
-        props.put("allow.auto.create.topics", false);
-        props.put("acks", "all");
+        Properties properties = new Properties();
+        try (FileInputStream propertiesFile = new FileInputStream("src/main/resources/kafka.properties")) {
+            properties.load(propertiesFile);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
-        try (Producer<String, String> producer = new KafkaProducer<>(props)) {
+        try (Producer<String, String> producer = new KafkaProducer<>(properties)) {
             int i = 0;
             while (true) {
                 try {
