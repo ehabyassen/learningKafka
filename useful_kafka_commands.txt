@@ -1,11 +1,29 @@
 docker exec -it kafka /bin/bash					=> opens interactive terminal to kafka's container
 
-kafka-topics.sh --bootstrap-server=localhost:9092 --list	=> lists existing kafka topics
+kafka-topics.sh --bootstrap-server localhost:9092 --list	=> lists existing kafka topics
 
-kafka-topics.sh --create --topic=fancy-topic --partitions=1 --replication-factor=1 --bootstrap-server=localhost:9092 =>creates a topic
+kafka-topics.sh --bootstrap-server localhost:9092 --create --topic=fancy-topic --partitions=1 --replication-factor=1 => creates a topic
 
-kafka-topics.sh --describe --topic=fancy-topic --bootstrap-server=localhost:9092 => describes a topic
+kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic=fancy-topic => describes a topic
 
-kafka-consumer-groups.sh --bootstrap-server=localhost:9092 --describe --group=consumer-group1 => describes consumer group
+kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic=fancy-topic => deletes a topic
+
+kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first_topic => produces to a topic without keys
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first_topic => consumes from the tail of a topic
+
+kafka-console-producer.sh --bootstrap-server localhost:9092 --topic first_topic --property parse.key=true --property key.separator=: => produces to a topic with a key and a separator :
+
+kafka-console-producer.sh --bootstrap-server localhost:9092 --topic third_topic --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner => produces to a topic with 3 partitions using round robin to distribute messages across partitions
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic third_topic --from-beginning => consumes from a partition from the beginning
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic third_topic --from-beginning --formatter kafka.tools.DefaultMessageFormatter --property print.timestamp=true --property print.key=true --property print.value=true --property print.partition=true => consumes from the beginning of a topic and displays timestamp, key and value of each message
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic third_topic --group my_first_application => consumer from a topic in a consumer group
+
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list => lists consumer groups
+
+kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group=consumer-group1 => describes consumer group
 
 
