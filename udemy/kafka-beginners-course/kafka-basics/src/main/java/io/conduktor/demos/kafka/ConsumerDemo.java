@@ -1,6 +1,7 @@
 package io.conduktor.demos.kafka;
 
 import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.CooperativeStickyAssignor;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
@@ -22,6 +23,9 @@ public class ConsumerDemo {
         properties.put("key.deserializer", StringDeserializer.class.getName());
         properties.put("value.deserializer", StringDeserializer.class.getName());
         properties.put("group.id", "my-first-app");
+        properties.put("partition.assignment.strategy", CooperativeStickyAssignor.class.getName());
+        //for static partition assignment
+        properties.put("group.instance.id", "UNIQUE_ID_FOR_EACH_INSTANCE");
 
         try (Consumer<String, String> consumer = new KafkaConsumer<>(properties)) {
             consumer.subscribe(Collections.singletonList(topicName));
